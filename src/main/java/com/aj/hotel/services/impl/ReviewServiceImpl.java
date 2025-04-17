@@ -49,6 +49,7 @@ public class ReviewServiceImpl implements ReviewService {
         String newReviewId = UUID.randomUUID().toString();
         Review review = Review.builder()
                 .id(newReviewId)
+                .rating(request.getRating())
                 .content(request.getContent())
                 .images(images)
                 .postedDate(now)

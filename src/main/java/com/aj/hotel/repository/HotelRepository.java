@@ -10,12 +10,12 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface HotelRepository extends ElasticsearchRepository<Hotel, String> {
 
-    Page<Hotel> findByAverageRatingGreaterThanEqual(Float averageRatings, Pageable pageable);
+    Page<Hotel> findByAverageRatingsGreaterThanEqual(Float averageRatings, Pageable pageable);
 
     @Query("{"+
             " \"bool\": {" +
             " \"must\": ["+
-            " { \"range\" :{ \"AverageRating\" : { \"gte\" : ?1}}}" +
+            " { \"range\" :{ \"AverageRatings\" : { \"gte\" : ?1}}}" +
             " ]," +
             " \"should\" : [" +
             " {\"fuzzy\" : {\"hotelName\" : {\"value\" : \"?0\", \"fuzziness\": \"AUTO\"}}}," +

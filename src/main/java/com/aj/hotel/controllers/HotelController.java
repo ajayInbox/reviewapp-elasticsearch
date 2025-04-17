@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,23 +25,25 @@ public class HotelController {
     private final HotelMapper hotelMapper;
 
 
-    @PostMapping
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<HotelDto> createHotel(@Valid @RequestBody HotelCreateUpdateRequestDto dto){
         HotelCreateUpdateRequest request = hotelMapper.toHotelCreateUpdateRequest(dto);
+        System.out.println(request);
         Hotel newHotel = hotelService.createHotel(request);
+        System.out.println(newHotel);
         HotelDto response = hotelMapper.toHotelDto(newHotel);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping
     public ResponseEntity<Page<HotelSummaryDto>> searchHotel(
-            @RequestParam(required = false) String q,
-            @RequestParam(required = false) float minRating,
-            @RequestParam(required = false) float latitude,
-            @RequestParam(required = false) float longitude,
-            @RequestParam(required = false) float radiusKm,
-            @RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "20") int size
+            @RequestParam(name = "q", required = false) String q,
+            @RequestParam(name = "minRating", required = false) Float minRating,
+            @RequestParam(name = "latitude", required = false) Float latitude,
+            @RequestParam(name = "longitude", required = false) Float longitude,
+            @RequestParam(name = "radiusKm", required = false) Float radiusKm,
+            @RequestParam(name = "page", defaultValue = "1") int page,
+            @RequestParam(name = "size", defaultValue = "20") int size
     ){
         Page<Hotel> results = hotelService.searchHotels(q, minRating, latitude,
                 longitude, radiusKm, PageRequest.of(page-1, size));

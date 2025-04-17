@@ -61,7 +61,7 @@ public class HotelServiceImpl implements HotelService {
                                     Float radiusKm,
                                     Pageable pageable) {
         if(minRating != null && (query == null || query.isEmpty())){
-            return hotelRepository.findByAverageRatingGreaterThanEqual(minRating, pageable);
+            return hotelRepository.findByAverageRatingsGreaterThanEqual(minRating, pageable);
         }
 
         Float minRatingValue = minRating == null ? 0f : minRating;

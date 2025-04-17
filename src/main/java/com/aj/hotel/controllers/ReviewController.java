@@ -28,7 +28,7 @@ public class ReviewController {
 
     @PostMapping
     public ResponseEntity<ReviewDto> createReview(
-            @PathVariable String hotelId,
+            @PathVariable("hotelId") String hotelId,
             @Valid @RequestBody ReviewCreateUpdateRequestDto requestDto,
             @AuthenticationPrincipal Jwt jwt
             ){
@@ -39,7 +39,7 @@ public class ReviewController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<ReviewDto>> getAllReviews(@PathVariable String hotelId,
+    public ResponseEntity<Page<ReviewDto>> getAllReviews(@PathVariable("hotelId") String hotelId,
                                          @PageableDefault(
                                                  page = 0,
                                                  size = 20,
@@ -53,8 +53,8 @@ public class ReviewController {
     }
 
     @GetMapping("/{reviewId}")
-    public ResponseEntity<ReviewDto> getReview(@PathVariable String hotelId,
-                                               @PathVariable String reviewId){
+    public ResponseEntity<ReviewDto> getReview(@PathVariable("hotelId") String hotelId,
+                                               @PathVariable("reviewId") String reviewId){
         return reviewService.getReview(hotelId, reviewId)
                 .map( review -> ResponseEntity.ok(reviewMapper.toDto(review)))
                 .orElse(ResponseEntity.notFound().build());
@@ -62,8 +62,8 @@ public class ReviewController {
     }
 
     @PutMapping("/{reviewId}")
-    public ResponseEntity<ReviewDto> updateReview(@PathVariable String hotelId,
-                                                  @PathVariable String reviewId,
+    public ResponseEntity<ReviewDto> updateReview(@PathVariable("hotelId") String hotelId,
+                                                  @PathVariable("reviewId") String reviewId,
                                                   @Valid @RequestBody ReviewCreateUpdateRequestDto requestDto,
                                                   @AuthenticationPrincipal Jwt jwt){
         ReviewCreateUpdateRequest request = reviewMapper.toReviewCreateUpdateRequest(requestDto);
